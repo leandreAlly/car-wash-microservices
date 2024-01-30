@@ -5,8 +5,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const startServer = async () => {
-  const PORT: string | number = process.env.PORT || 8080;
-
   if (!process.env.MONGO_URI) {
     throw new Error('MONGO_URI must be defined');
   }
@@ -17,8 +15,8 @@ const startServer = async () => {
   } catch (err) {
     console.error(err);
   }
-  app.listen(PORT, () => {
-    console.log(`Listening on Port: ${PORT}.......`);
+  app.listen(3000, () => {
+    console.log(`Listening on Port: 3000.......`);
   });
 };
 
