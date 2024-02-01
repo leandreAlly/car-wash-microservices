@@ -9,6 +9,8 @@ interface UserDoc extends mongoose.Document {
   name: string;
   email: string;
   password: string;
+  role?: string;
+  isVerified?: boolean;
 }
 
 const userSchema = new mongoose.Schema(
@@ -24,6 +26,15 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+    role: {
+      type: String,
+      enum: ['user', 'admin', 'washer'],
+      default: 'user',
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
     },
   },
   {
