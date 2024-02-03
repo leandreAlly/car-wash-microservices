@@ -16,8 +16,10 @@ export const validate =
       return next();
     } catch (error) {
       if (error instanceof ZodError) {
-        return res.status(400).json({ message: formatZodError(error) });
+        return res
+          .status(400)
+          .json({ message: formatZodError(error as ZodError) });
       }
-      return res.status(500).json({ message: JSON.stringify(error) });
+      return res.status(500).json({ message: 'An unexpected error occurred' });
     }
   };
