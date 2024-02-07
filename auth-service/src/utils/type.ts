@@ -5,3 +5,8 @@ export type UserAttrs = {
   role?: string;
   isVerified?: boolean;
 };
+
+export type UserOtp = {
+  email: string;
+  otp: string;
+};
