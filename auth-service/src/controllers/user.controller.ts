@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../models/user';
-import { UserAttrs } from '../utils/type';
+import { UserAttrs, UserOtp } from '../utils/type';
 import {
   BadRequestError,
   ConflictRequestError,
@@ -43,10 +43,7 @@ const registerUser = asyncWrapper(
 );
 
 const verifyOtp = asyncWrapper(
-  async (
-    req: Request<{}, {}, { email: string; otp: string }>,
-    res: Response
-  ) => {
+  async (req: Request<{}, {}, UserOtp>, res: Response) => {
     const { email, otp } = req.body;
 
     const storedOTP = await client.get(email);
