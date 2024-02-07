@@ -7,7 +7,7 @@ dotenv.config();
 
 const REDISPORT = 6379;
 
-const client = createClient({
+export const client = createClient({
   url: 'redis://redis-service:6379',
 });
 
