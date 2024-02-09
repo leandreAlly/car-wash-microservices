@@ -8,7 +8,7 @@ const sendEmail = (sendToEmail: string, subject: string, HTMLText: string) => {
   const message = {
     to: sendToEmail,
     from: {
-      name: 'SHAREVIEW SERVICE',
+      name: 'CAR WASH SERVICE',
       email: process.env.SEND_GRID_EMAIL!,
     },
     subject,
