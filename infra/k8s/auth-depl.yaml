@@ -20,6 +20,16 @@ spec:
               value: 'mongodb://auth-mongo-srv:27017/auth'
             - name: REDIS_HOST
               value: expiration-redis-srv
+            - name: SENDGRID_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sendgrid-key
+                  key: SENDGRID_API_KEY
+            - name: SEND_GRID_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: sendgrid-email
+                  key: SEND_GRID_EMAIL
 
 ---
 apiVersion: v1

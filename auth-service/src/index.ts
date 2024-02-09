@@ -18,6 +18,12 @@ const startServer = async () => {
   if (!process.env.REDIS_HOST) {
     throw new Error('REDIS_HOST must be defined');
   }
+  if (!process.env.SENDGRID_API_KEY) {
+    throw new Error('SENDGRID_API_KEY must be defined');
+  }
+  if (!process.env.SEND_GRID_EMAIL) {
+    throw new Error('SEND_GRID_EMAIL must be defined');
+  }
 
   client.on('error', (err) => console.error(err));
   client.on('connect', () => console.log('connected to redis'));
