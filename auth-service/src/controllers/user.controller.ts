@@ -9,6 +9,8 @@ import {
 import { PasswordUtil } from '../services/password';
 import otpGenerator from 'otp-generator';
 import { client } from '../index';
+import sendEmail from '../services/sendEmail';
+import { verifyEmailTemplate } from '../utils/mailTemplate';
 
 const registerUser = asyncWrapper(
   async (req: Request<{}, {}, UserAttrs>, res: Response) => {
@@ -35,6 +37,10 @@ const registerUser = asyncWrapper(
     });
 
     await user.save();
+
+    const verificationEmail = verifyEmailTemplate(otp);
+
+    sendEmail(email, 'Car Wash email verification', verificationEmail);
 
     res
       .status(201)
