@@ -11,6 +11,7 @@ import otpGenerator from 'otp-generator';
 import { client } from '../index';
 import sendEmail from '../services/sendEmail';
 import { verifyEmailTemplate } from '../utils/mailTemplate';
+import { JWTUtil } from '../services/jwt';
 
 const registerUser = asyncWrapper(
   async (req: Request<{}, {}, UserAttrs>, res: Response) => {
@@ -48,6 +49,37 @@ const registerUser = asyncWrapper(
   }
 );
 
+const signInUser = asyncWrapper(
+  async (req: Request<{}, {}, UserAttrs>, res: Response) => {
+    const { email, password } = req.body;
+
+    const existUser = await User.findOne({ email });
+
+    if (!existUser) {
+      throw new BadRequestError('Invalid Credentials');
+    }
+
+    const isPasswordMatch = await PasswordUtil.compare(
+      existUser.password,
+      password
+    );
+
+    if (!isPasswordMatch) {
+      throw new BadRequestError('Invalid Credentials');
+    }
+
+    const token = await JWTUtil.generateToken({ id: existUser.id, email });
+
+    return res.status(200).json({
+      message: 'User logged in successfully',
+      data: {
+        token,
+        user: existUser,
+      },
+    });
+  }
+);
+
 const verifyOtp = asyncWrapper(
   async (req: Request<{}, {}, UserOtp>, res: Response) => {
     const { email, otp } = req.body;
@@ -65,4 +97,4 @@ const verifyOtp = asyncWrapper(
   }
 );
 
-export { registerUser, verifyOtp };
+export { registerUser, verifyOtp, signInUser };

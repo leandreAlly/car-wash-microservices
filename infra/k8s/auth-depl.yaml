@@ -30,6 +30,11 @@ spec:
                 secretKeyRef:
                   name: sendgrid-email
                   key: SEND_GRID_EMAIL
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
 
 ---
 apiVersion: v1
