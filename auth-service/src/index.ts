@@ -18,6 +18,9 @@ const startServer = async () => {
   if (!process.env.REDIS_HOST) {
     throw new Error('REDIS_HOST must be defined');
   }
+  if (!process.env.JWT_KEY) {
+    throw new Error('JWT_KEY must be defined');
+  }
   if (!process.env.SENDGRID_API_KEY) {
     throw new Error('SENDGRID_API_KEY must be defined');
   }

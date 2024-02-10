@@ -11,10 +11,10 @@ export class JWTUtil {
     data: TokenData,
     options: any = {}
   ): Promise<string> {
-    return Jwt.sign({ data }, process.env.JWT_SECRET!, options);
+    return Jwt.sign({ data }, process.env.JWT_KEY!, options);
   }
 
   static async verifyToken(token: string) {
-    return Jwt.verify(token, process.env.JWT_SECRET!);
+    return Jwt.verify(token, process.env.JWT_KEY!);
   }
 }
