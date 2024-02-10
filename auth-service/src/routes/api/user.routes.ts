@@ -9,11 +9,12 @@ import {
   userOtpSchema,
   userRegisterSchema,
 } from '../../utils/validationSchemas';
+import { checkIfUserIsVerified } from '../../middleware/user.middleware';
 
 const router = express.Router();
 
 router.post('/register', validate(userRegisterSchema), registerUser);
-router.post('/login', signInUser);
+router.post('/login', checkIfUserIsVerified, signInUser);
 router.post('/verify-email', validate(userOtpSchema), verifyOtp);
 
 export { router as userRoutes };
