@@ -48,6 +48,23 @@ const registerUser = asyncWrapper(
   }
 );
 
+const signInUser = asyncWrapper(
+  async (req: Request<{}, {}, UserAttrs>, res: Response) => {
+    const { email, password } = req.body;
+
+    const isUserExist = await User.findOne({ email });
+
+    if (!isUserExist) {
+      throw new BadRequestError('Invalid Credentials');
+    }
+
+    const isPasswordMatch = await PasswordUtil.
+
+
+
+  }
+);
+
 const verifyOtp = asyncWrapper(
   async (req: Request<{}, {}, UserOtp>, res: Response) => {
     const { email, otp } = req.body;
