@@ -43,6 +43,8 @@ const registerUser = asyncWrapper(
 
     sendEmail(email, 'Car Wash email verification', verificationEmail);
 
+    req.session = { otp };
+
     res
       .status(201)
       .json({ message: 'user registered successfuly', data: user, otp: otp });
@@ -70,12 +72,14 @@ const signInUser = asyncWrapper(
 
     const token = await JWTUtil.generateToken({ id: existUser.id, email });
 
+    req.session = { jwt: token };
+
     return res.status(200).json({
       message: 'User logged in successfully',
       data: {
-        token,
         user: existUser,
       },
+      token,
     });
   }
 );
