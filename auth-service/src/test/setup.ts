@@ -1,8 +1,10 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import request from 'supertest';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import { app } from '../app';
 
+dotenv.config();
 declare global {
   var signin: () => Promise<string[]>;
 }
@@ -13,6 +15,7 @@ beforeAll(async () => {
   process.env.JWT_KEY = 'helloworld';
   mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
+  process.env.MONGO_URI = mongoUri;
 
   await mongoose.connect(mongoUri);
 });
@@ -31,13 +34,12 @@ afterAll(async () => {
 });
 
 global.signin = async () => {
-  const name = 'myname test';
   const email = 'test@test.com';
   const password = 'password';
 
   const response = await request(app)
-    .post('/api/v1/auth/register')
-    .send({ name, email, password })
+    .post('/api/users/signup')
+    .send({ email, password })
     .expect(201);
 
   const cookie = response.get('Set-Cookie');
