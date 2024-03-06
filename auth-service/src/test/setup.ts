@@ -1,10 +1,8 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import request from 'supertest';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import { app } from '../app';
 
-dotenv.config();
 declare global {
   var signin: () => Promise<string[]>;
 }
@@ -12,12 +10,16 @@ declare global {
 let mongo: any;
 
 beforeAll(async () => {
-  process.env.JWT_KEY = 'helloworld';
+  process.env.JWT_KEY = 'asdfasdf';
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; //
   mongo = await MongoMemoryServer.create();
-  const mongoUri = mongo.getUri();
+  const mongoUri = await mongo.getUri();
+
   process.env.MONGO_URI = mongoUri;
 
-  await mongoose.connect(mongoUri);
+  await mongoose.connect(mongoUri, {}).then(() => {
+    console.log('Connected to mongodb for testing.....');
+  });
 });
 
 beforeEach(async () => {
@@ -29,8 +31,10 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
+  if (mongo) {
+    await mongo.stop();
+  }
   await mongoose.connection.close();
-  await mongo.stop();
 });
 
 global.signin = async () => {

@@ -1,6 +1,5 @@
 import request from 'supertest';
 import { app } from '../../app';
-import sendEmail from '../../services/sendEmail';
 
 const sendEmailMock = jest.fn(
   (sendToEmail: string, subject: string, HTMLText: string) => {
