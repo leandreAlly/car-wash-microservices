@@ -24,9 +24,9 @@ const startServer = async () => {
   }
 
   try {
-    await client.connect();
     client.on('error', (err) => console.error(err));
     client.on('connect', () => console.log('connected to redis'));
+    await client.connect();
 
     await mongoose.connect(mongoUri!);
     console.log('Connected to mongodb');
