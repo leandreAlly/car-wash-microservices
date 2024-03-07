@@ -1,19 +1,19 @@
 import request from 'supertest';
 import { app } from '../../app';
 
-const sendEmailMock = jest.fn(
-  (sendToEmail: string, subject: string, HTMLText: string) => {
-    console.log('email sent...');
-  }
-);
+jest.mock('../../services/sendEmail', () => {
+  const sendEmailMock = jest.fn(
+    (sendToEmail: string, subject: string, HTMLText: string) => {}
+  );
 
-jest.mock('../../services/sendEmail', () => ({
-  __esModule: true,
-  default: sendEmailMock,
-}));
+  return {
+    __esModule: true,
+    default: sendEmailMock,
+  };
+});
 
 it('returns a 400 with invalid name', async () => {
-  return request(app)
+  await request(app)
     .post('/api/v1/auth/register')
     .send({
       name: '',
@@ -24,7 +24,7 @@ it('returns a 400 with invalid name', async () => {
 });
 
 it('returns a 400 with an invalid email', async () => {
-  return request(app)
+  await request(app)
     .post('/api/v1/auth/register')
     .send({
       name: 'myname',
@@ -35,7 +35,7 @@ it('returns a 400 with an invalid email', async () => {
 });
 
 it('return a 400 with an invalid password', async () => {
-  return request(app)
+  await request(app)
     .post('/api/v1/auth/register')
     .send({
       name: 'myname',
@@ -46,7 +46,7 @@ it('return a 400 with an invalid password', async () => {
 });
 
 it('Should not allow password length greater than 16', async () => {
-  return request(app)
+  await request(app)
     .post('/api/v1/auth/register')
     .send({
       name: 'myname',
@@ -57,7 +57,7 @@ it('Should not allow password length greater than 16', async () => {
 });
 
 it('return a 201 on successful signup', async () => {
-  return request(app)
+  await request(app)
     .post('/api/v1/auth/register')
     .send({
       name: 'myname',

@@ -57,6 +57,7 @@ const signInUser = asyncWrapper(
 
     const existUser = await User.findOne({ email });
 
+    //Todo: migrate this to middleware
     if (!existUser) {
       throw new BadRequestError('Invalid Credentials');
     }

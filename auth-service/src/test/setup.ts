@@ -18,7 +18,7 @@ beforeAll(async () => {
   process.env.MONGO_URI = mongoUri;
 
   await mongoose.connect(mongoUri, {}).then(() => {
-    console.log('Connected to mongodb for testing.....');
+    console.info('Connected to mongodb for testing.....');
   });
 });
 
@@ -37,17 +37,25 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-global.signin = async () => {
-  const name = 'test';
-  const email = 'test@test.com';
-  const password = 'password';
+// global.signin = async () => {
+//   const name = 'test';
+//   const email = 'test@test.com';
+//   const password = 'password';
 
-  const response = await request(app)
-    .post('/api/users/signup')
-    .send({ email, password, name })
-    .expect(201);
+//   const response = await request(app)
+//     .post('/api/v1/auth/register')
+//     .send({ email, password, name })
+//     .expect(201);
 
-  const cookie = response.get('Set-Cookie');
+//   await request(app)
+//     .post('/api/v1/auth/verify-email')
+//     .send({
+//       email: email,
+//       otp: response.body.otp,
+//     })
+//     .expect(200);
 
-  return cookie;
-};
+//   const cookie = response.get('Set-Cookie');
+
+//   return cookie;
+// };
