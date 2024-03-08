@@ -4,12 +4,11 @@ import cookieSession from 'cookie-session';
 import allRoutes from './routes';
 
 const app = express();
-
 app.use(express.json());
 app.set('trust proxy', true);
 app.use(
   cookieSession({
-    signed: false, //
+    signed: false,
     secure: process.env.NODE_ENV !== 'test',
   })
 );
